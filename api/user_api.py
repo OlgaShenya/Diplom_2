@@ -1,5 +1,5 @@
 import requests
-import uuid
+from .helpers import generate_unique_email
 
 
 class UserAPI:
@@ -12,8 +12,7 @@ class UserAPI:
 
     def generate_unique_email(self, domain="yandex.ru"):
         """Генерация уникального email для тестов."""
-        unique_id = uuid.uuid4().hex[:10]
-        return f"test_{unique_id}@{domain}"
+        return generate_unique_email(domain)
 
     def create_user(self, email, password, name):
         """POST /api/auth/register"""
