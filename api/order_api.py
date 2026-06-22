@@ -1,4 +1,5 @@
 import requests
+from .endpoints import Endpoints
 
 
 class OrderAPI:
@@ -14,7 +15,7 @@ class OrderAPI:
         GET /api/ingredients
         Получение списка ингредиентов (нужен для получения валидного _id в тестах)
         """
-        return self.session.get(f"{self.base_url}/api/ingredients")
+        return self.session.get(f"{self.base_url}{Endpoints.GET_INGREDIENTS}")
 
     def create_order(self, ingredients, access_token=None):
         """
@@ -26,7 +27,7 @@ class OrderAPI:
             headers["Authorization"] = access_token
             
         return self.session.post(
-            f"{self.base_url}/api/orders",
+            f"{self.base_url}{Endpoints.CREATE_ORDER}",
             json={"ingredients": ingredients},
             headers=headers
         )
@@ -41,6 +42,6 @@ class OrderAPI:
             headers["Authorization"] = access_token
             
         return self.session.get(
-            f"{self.base_url}/api/orders",
+            f"{self.base_url}{Endpoints.GET_ORDERS}",
             headers=headers
         )

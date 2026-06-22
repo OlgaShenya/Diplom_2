@@ -1,6 +1,7 @@
 import pytest
 from api.user_api import UserAPI
 from api.order_api import OrderAPI
+from api.data import TestUserData
 
 
 @pytest.fixture
@@ -18,7 +19,7 @@ def order_api():
 def existing_user(user_api):
     """Создает пользователя, передает данные в тест и гарантированно удаляет его после."""
     email = user_api.generate_unique_email()
-    response = user_api.create_user(email, "password123", "TestUser")
+    response = user_api.create_user(email, TestUserData.PASSWORD, TestUserData.NAME)
     data = response.json()
     
     if not data.get("success"):
@@ -26,8 +27,8 @@ def existing_user(user_api):
 
     user_info = {
         "email": email,
-        "password": "password123",
-        "name": "TestUser",
+        "password": TestUserData.PASSWORD,
+        "name": TestUserData.NAME,
         "access_token": data["accessToken"]
     }
     

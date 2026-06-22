@@ -1,5 +1,6 @@
 import requests
 from .helpers import generate_unique_email
+from .endpoints import Endpoints
 
 
 class UserAPI:
@@ -17,12 +18,12 @@ class UserAPI:
     def create_user(self, email, password, name):
         """POST /api/auth/register"""
         data = {"email": email, "password": password, "name": name}
-        return self.session.post(f"{self.base_url}/api/auth/register", json=data)
+        return self.session.post(f"{self.base_url}{Endpoints.REGISTER}", json=data)
 
     def login_user(self, email, password):
         """POST /api/auth/login"""
         data = {"email": email, "password": password}
-        return self.session.post(f"{self.base_url}/api/auth/login", json=data)
+        return self.session.post(f"{self.base_url}{Endpoints.LOGIN}", json=data)
 
     def update_user(self, access_token=None, email=None, name=None):
         """PATCH /api/auth/user"""
@@ -34,9 +35,9 @@ class UserAPI:
             data["email"] = email
         if name is not None:
             data["name"] = name
-        return self.session.patch(f"{self.base_url}/api/auth/user", json=data, headers=headers)
+        return self.session.patch(f"{self.base_url}{Endpoints.UPDATE_USER}", json=data, headers=headers)
 
     def delete_user(self, access_token):
         """DELETE /api/auth/user"""
         headers = {"Authorization": access_token}
-        return self.session.delete(f"{self.base_url}/api/auth/user", headers=headers)
+        return self.session.delete(f"{self.base_url}{Endpoints.DELETE_USER}", headers=headers)
